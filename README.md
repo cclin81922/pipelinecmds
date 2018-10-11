@@ -10,7 +10,7 @@ go get -u -d github.com/cclin81922/pipelinecmds/pkg/pipelinecmds
 import "github.com/cclin81922/pipelinecmds/pkg/pipelinecmds"
 
 func demo(cmds ...*exec.Cmd) {
-    finalStdout, finalStderr, anyErr := pipelinecmds.Pipeline(cmds...)
+    finalStdout, finalStderr, anyErr := pipelinecmds.FailFastPipeline(cmds...)
 }
 ```
 
