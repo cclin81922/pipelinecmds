@@ -47,7 +47,7 @@ func TestPipeline(t *testing.T) {
 			exitcode: 0,
 		},
 		{
-			name: "echo then cat",
+			name: "echo then grep",
 			pipeline: []*exec.Cmd{
 				&exec.Cmd{Path: "echo", Args: []string{"-e", "hello\nworld"}},
 				&exec.Cmd{Path: "grep", Args: []string{"hello"}},
