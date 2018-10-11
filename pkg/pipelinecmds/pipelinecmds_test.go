@@ -30,29 +30,29 @@ func TestPipeline(t *testing.T) {
 		{
 			name: "echo",
 			pipeline: []*exec.Cmd{
-				&exec.Cmd{Path: "echo", Args: []string{"ok"}},
+				exec.Command("echo", "ok"),
 			},
-			stdout:   "ok",
+			stdout:   "ok\n",
 			stderr:   "",
 			exitcode: 0,
 		},
 		{
 			name: "echo then cat",
 			pipeline: []*exec.Cmd{
-				&exec.Cmd{Path: "echo", Args: []string{"ok"}},
-				&exec.Cmd{Path: "cat"},
+				exec.Command("echo", "ok"),
+				exec.Command("cat"),
 			},
-			stdout:   "ok",
+			stdout:   "ok\n",
 			stderr:   "",
 			exitcode: 0,
 		},
 		{
 			name: "echo then grep",
 			pipeline: []*exec.Cmd{
-				&exec.Cmd{Path: "echo", Args: []string{"-e", "hello\nworld"}},
-				&exec.Cmd{Path: "grep", Args: []string{"hello"}},
+				exec.Command("echo", "hello\nworld"),
+				exec.Command("grep", "hello"),
 			},
-			stdout:   "hello",
+			stdout:   "hello\n",
 			stderr:   "",
 			exitcode: 0,
 		},
@@ -61,14 +61,16 @@ func TestPipeline(t *testing.T) {
 	for _, tc := range testcases {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
-			finalStdout, finalStderr, anyError := Pipeline(tc.pipeline...)
-			if anyError != nil {
-				t.Fatal(anyError)
+			finalStdout, finalStderr, firstError := FailFastPipeline(tc.pipeline...)
+			if firstError != nil {
+				t.Fatal(firstError)
 			}
-			if finalStdout != tc.stdout {
-				t.Fatalf("stdout error | expected %s | got %s", tc.stdout, finalStdout)
+			if string(finalStdout) != tc.stdout {
+				t.Errorf("expected stdout length %d | got %d", len(tc.stdout), len(finalStdout))
+				t.Fatalf("expected stdout content %s | got %s", tc.stdout, finalStdout)
+
 			}
-			if finalStderr != tc.stderr {
+			if string(finalStderr) != tc.stderr {
 				t.Fatalf("stderr error | expected %s | got %s", tc.stderr, finalStderr)
 			}
 		})
