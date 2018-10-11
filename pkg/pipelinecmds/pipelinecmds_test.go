@@ -14,9 +14,8 @@
 
 package pipelinecmds
 
-import "os/exec"
+import "testing"
 
-// Pipeline ...
-func Pipeline(cmds ...*exec.Cmd) {
+func TestPipeline(t *testing.T) {
 	// TODO
 }
