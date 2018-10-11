@@ -1,8 +1,7 @@
 # Installation
 
 ```
-go get -u github.com/cclin81922/pipelinecmds/cmd/pipelinecmds
-export PATH=$PATH:~/go/bin
+go get -u -d github.com/cclin81922/pipelinecmds/pkg/pipelinecmds
 ```
 
 # Package Usage
