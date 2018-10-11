@@ -17,6 +17,7 @@ package pipelinecmds
 import "os/exec"
 
 // Pipeline ...
-func Pipeline(cmds ...*exec.Cmd) {
+func Pipeline(cmds ...*exec.Cmd) (finalStdout string, finalStderr string, anyError error) {
 	// TODO
+	return "", "", nil
 }
